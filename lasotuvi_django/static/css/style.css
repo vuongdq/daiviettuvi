@@ -1,0 +1,115 @@
+/* Custom styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Navbar improvements */
+.navbar {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.navbar-brand {
+    font-weight: bold;
+}
+
+/* Card improvements */
+.card {
+    transition: transform 0.2s;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+}
+
+/* Hero section improvements */
+.bg-primary {
+    background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+}
+
+/* Footer improvements */
+footer {
+    background: linear-gradient(135deg, #212529 0%, #1a1e21 100%);
+}
+
+footer a {
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+footer a:hover {
+    color: #0d6efd !important;
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+    .card-img-top {
+        height: 160px;
+    }
+}
+
+/* Custom button styles */
+.btn {
+    border-radius: 5px;
+    padding: 8px 20px;
+    font-weight: 500;
+}
+
+.btn-primary {
+    box-shadow: 0 2px 4px rgba(13, 110, 253, 0.2);
+}
+
+.btn-outline-primary:hover {
+    box-shadow: 0 2px 4px rgba(13, 110, 253, 0.2);
+}
+
+/* Section spacing */
+.py-5 {
+    padding-top: 4rem !important;
+    padding-bottom: 4rem !important;
+}
+
+/* Price tag styling */
+.text-primary.fw-bold {
+    font-size: 1.1rem;
+}
+
+/* Badge styling */
+.badge {
+    padding: 6px 12px;
+    font-weight: 500;
+}
+
+/* Card title styling */
+.card-title {
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+/* Card text styling */
+.card-text {
+    color: #6c757d;
+    line-height: 1.5;
+}
+
+/* Footer contact info */
+.list-unstyled li {
+    margin-bottom: 0.5rem;
+}
+
+/* Hero text improvements */
+.display-4 {
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.lead {
+    font-size: 1.2rem;
+    font-weight: 400;
+    margin-bottom: 2rem;
+} 

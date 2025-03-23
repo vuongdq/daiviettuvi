@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Khóa Học - Lá Số Tử Vi{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <!-- Sidebar with Categories -->
+        <div class="col-md-3">
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0">Chuyên Mục</h5>
+                </div>
+                <div class="list-group list-group-flush">
+                    {% for category in categories %}
+                    <a href="{% url 'category_detail' category.slug %}" class="list-group-item list-group-item-action">
+                        {{ category.name }}
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Level Filter -->
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0">Cấp Độ</h5>
+                </div>
+                <div class="list-group list-group-flush">
+                    <a href="?level=beginner" class="list-group-item list-group-item-action">Cơ bản</a>
+                    <a href="?level=intermediate" class="list-group-item list-group-item-action">Trung cấp</a>
+                    <a href="?level=advanced" class="list-group-item list-group-item-action">Nâng cao</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-md-9">
+            <h1 class="mb-4">Khóa Học</h1>
+            
+            <!-- Course Grid -->
+            <div class="row g-4">
+                {% for course in course_list %}
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        {% if course.thumbnail %}
+                        <img src="{{ course.thumbnail.url }}" class="card-img-top" alt="{{ course.title }}">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ course.title }}</h5>
+                            <p class="card-text">{{ course.description|truncatewords:30 }}</p>
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="badge bg-primary">{{ course.get_level_display }}</span>
+                                <span class="text-primary fw-bold">{{ course.price }} VNĐ</span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-muted">{{ course.duration }}</small>
+                                <a href="{% url 'course_detail' course.slug %}" class="btn btn-primary">Xem chi tiết</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="col-12">
+                    <div class="alert alert-info">
+                        Chưa có khóa học nào được đăng.
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Pagination -->
+            {% if is_paginated %}
+            <nav aria-label="Page navigation" class="mt-4">
+                <ul class="pagination justify-content-center">
+                    {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Trước</a>
+                    </li>
+                    {% endif %}
+
+                    {% for num in page_obj.paginator.page_range %}
+                    <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                        <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                    </li>
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}">Sau</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %} 

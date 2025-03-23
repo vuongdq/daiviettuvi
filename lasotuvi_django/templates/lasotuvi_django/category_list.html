@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Chuyên Mục - Lá Số Tử Vi{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="text-center mb-5">Chuyên Mục</h1>
+    
+    <div class="row g-4">
+        {% for category in categories %}
+        <div class="col-md-4">
+            <div class="card h-100">
+                {% if category.thumbnail %}
+                <img src="{{ category.thumbnail.url }}" class="card-img-top" alt="{{ category.name }}">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ category.name }}</h5>
+                    <p class="card-text">{{ category.description|truncatewords:30 }}</p>
+                    
+                    <!-- Subcategories -->
+                    {% if category.category_set.exists %}
+                    <div class="mb-3">
+                        <h6 class="text-muted">Chuyên mục con:</h6>
+                        <div class="d-flex flex-wrap gap-2">
+                            {% for subcategory in category.category_set.all %}
+                            <a href="{% url 'category_detail' subcategory.slug %}" class="badge bg-secondary text-decoration-none">
+                                {{ subcategory.name }}
+                            </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <small class="text-muted">Cập nhật: {{ category.updated_at|date:"d/m/Y" }}</small>
+                        <a href="{% url 'category_detail' category.slug %}" class="btn btn-primary">Xem chi tiết</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info">
+                Chưa có chuyên mục nào được tạo.
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %} 

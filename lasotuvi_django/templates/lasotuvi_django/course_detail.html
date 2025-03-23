@@ -1,0 +1,131 @@
+{% extends 'lasotuvi_django/base.html' %}
+{% load static %}
+
+{% block title %}{{ course.title }} - Lá Số Tử Vi{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Course Header -->
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h1 class="display-4">{{ course.title }}</h1>
+            <p class="lead">{{ course.description }}</p>
+            <div class="d-flex gap-2 mb-3">
+                <span class="badge bg-primary">{{ course.level }}</span>
+                <span class="badge bg-success">{{ course.duration }}</span>
+                <span class="badge bg-info">{{ course.enrollment_count }} học viên</span>
+                <span class="badge bg-warning">{{ course.rating }} <i class="fas fa-star"></i></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Thông tin khóa học</h5>
+                    <ul class="list-unstyled">
+                        <li><strong>Giá:</strong> {{ course.price|floatformat:0 }} VNĐ</li>
+                        {% if course.discount_price %}
+                        <li><strong>Giá ưu đãi:</strong> {{ course.discount_price|floatformat:0 }} VNĐ</li>
+                        {% endif %}
+                        <li><strong>Thời lượng:</strong> {{ course.duration }}</li>
+                        <li><strong>Cấp độ:</strong> {{ course.level }}</li>
+                        <li><strong>Học viên:</strong> {{ course.enrollment_count }}</li>
+                        <li><strong>Đánh giá:</strong> {{ course.rating }} <i class="fas fa-star"></i></li>
+                    </ul>
+                    <button class="btn btn-primary w-100">Đăng ký học</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Course Content -->
+    <div class="row">
+        <div class="col-md-8">
+            <!-- Course Description -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h2 class="card-title">Mô tả khóa học</h2>
+                    <div class="content">
+                        {{ course.description|linebreaks }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course Lessons -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h2 class="card-title">Nội dung bài học</h2>
+                    <div class="list-group">
+                        {% for lesson in lessons %}
+                        <div class="list-group-item">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h5 class="mb-1">{{ lesson.title }}</h5>
+                                    <p class="mb-1">{{ lesson.duration }}</p>
+                                </div>
+                                <div>
+                                    {% if lesson.is_free %}
+                                    <span class="badge bg-success">Miễn phí</span>
+                                    {% else %}
+                                    <span class="badge bg-primary">Có phí</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <div class="alert alert-info">
+                            Chưa có bài học nào trong khóa học này.
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course Requirements -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h2 class="card-title">Yêu cầu khóa học</h2>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-check text-success me-2"></i> Kiến thức cơ bản về tử vi</li>
+                        <li><i class="fas fa-check text-success me-2"></i> Máy tính có kết nối internet</li>
+                        <li><i class="fas fa-check text-success me-2"></i> Thời gian học tập đều đặn</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <!-- Instructor Info -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h2 class="card-title">Giảng viên</h2>
+                    <div class="text-center">
+                        <img src="{% static 'images/default-avatar.png' %}" alt="{{ course.instructor.get_full_name }}" class="rounded-circle mb-3" width="100">
+                        <h5>{{ course.instructor.get_full_name }}</h5>
+                        <p class="text-muted">{{ course.instructor.email }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Related Courses -->
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">Khóa học liên quan</h2>
+                    <div class="list-group">
+                        {% for related_course in related_courses %}
+                        <a href="{% url 'course_detail' related_course.slug %}" class="list-group-item list-group-item-action">
+                            <h5 class="mb-1">{{ related_course.title }}</h5>
+                            <p class="mb-1">{{ related_course.duration }}</p>
+                            <small class="text-muted">{{ related_course.price|floatformat:0 }} VNĐ</small>
+                        </a>
+                        {% empty %}
+                        <div class="alert alert-info">
+                            Chưa có khóa học liên quan.
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

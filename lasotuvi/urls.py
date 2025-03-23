@@ -16,8 +16,21 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
+from lasotuvi_django.views import home, NewsList, NewsDetail, CourseList, CourseDetail, CategoryList, CategoryDetail
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('lasotuvi/', include('lasotuvi_django.urls'))
+    path('', home, name='home'),
+    path('news/', NewsList.as_view(), name='news_list'),
+    path('news/<slug:slug>/', NewsDetail.as_view(), name='news_detail'),
+    path('courses/', CourseList.as_view(), name='course_list'),
+    path('courses/<slug:slug>/', CourseDetail.as_view(), name='course_detail'),
+    path('categories/', CategoryList.as_view(), name='category_list'),
+    path('categories/<slug:slug>/', CategoryDetail.as_view(), name='category_detail'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

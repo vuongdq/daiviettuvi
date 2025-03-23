@@ -1,0 +1,133 @@
+{% extends 'lasotuvi_django/base.html' %}
+{% load static %}
+
+{% block title %}{{ category.name }} - Lá Số Tử Vi{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Category Header -->
+    <div class="mb-4">
+        <h1 class="display-4">{{ category.name }}</h1>
+        {% if category.description %}
+        <p class="lead">{{ category.description }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Featured News -->
+    {% if featured_news %}
+    <div class="mb-5">
+        <h2 class="mb-4">Bài viết nổi bật</h2>
+        <div class="row">
+            {% for news in featured_news %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    {% if news.featured_image %}
+                    <img src="{{ news.featured_image.url }}" class="card-img-top" alt="{{ news.title }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ news.title }}</h5>
+                        <p class="card-text">{{ news.excerpt|truncatewords:30 }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-muted">{{ news.created_at|date:"d/m/Y" }}</small>
+                            <a href="{% url 'news_detail' news.slug %}" class="btn btn-outline-primary">Đọc thêm</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Latest News -->
+    {% if latest_news %}
+    <div class="mb-5">
+        <h2 class="mb-4">Bài viết mới nhất</h2>
+        <div class="row">
+            {% for news in latest_news %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    {% if news.featured_image %}
+                    <img src="{{ news.featured_image.url }}" class="card-img-top" alt="{{ news.title }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ news.title }}</h5>
+                        <p class="card-text">{{ news.excerpt|truncatewords:30 }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-muted">{{ news.created_at|date:"d/m/Y" }}</small>
+                            <a href="{% url 'news_detail' news.slug %}" class="btn btn-outline-primary">Đọc thêm</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Featured Courses -->
+    {% if featured_courses %}
+    <div class="mb-5">
+        <h2 class="mb-4">Khóa học nổi bật</h2>
+        <div class="row">
+            {% for course in featured_courses %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    {% if course.featured_image %}
+                    <img src="{{ course.featured_image.url }}" class="card-img-top" alt="{{ course.title }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ course.title }}</h5>
+                        <p class="card-text">{{ course.description|truncatewords:30 }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <span class="badge bg-primary">{{ course.level }}</span>
+                                <span class="badge bg-success">{{ course.duration }}</span>
+                            </div>
+                            <a href="{% url 'course_detail' course.slug %}" class="btn btn-outline-primary">Xem chi tiết</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Latest Courses -->
+    {% if latest_courses %}
+    <div class="mb-5">
+        <h2 class="mb-4">Khóa học mới nhất</h2>
+        <div class="row">
+            {% for course in latest_courses %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    {% if course.featured_image %}
+                    <img src="{{ course.featured_image.url }}" class="card-img-top" alt="{{ course.title }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ course.title }}</h5>
+                        <p class="card-text">{{ course.description|truncatewords:30 }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <span class="badge bg-primary">{{ course.level }}</span>
+                                <span class="badge bg-success">{{ course.duration }}</span>
+                            </div>
+                            <a href="{% url 'course_detail' course.slug %}" class="btn btn-outline-primary">Xem chi tiết</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- No Content Message -->
+    {% if not featured_news and not latest_news and not featured_courses and not latest_courses %}
+    <div class="alert alert-info">
+        Chưa có nội dung nào trong danh mục này.
+    </div>
+    {% endif %}
+</div>
+{% endblock %} 
